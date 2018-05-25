@@ -1,0 +1,6 @@
+framework module Pods_WelcomeKitExample {
+  umbrella header "Pods-WelcomeKitExample-umbrella.h"
+
+  export *
+  module * { export * }
+}
