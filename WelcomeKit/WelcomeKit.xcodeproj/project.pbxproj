@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5C3892EE20B795F700A10A0C /* WelcomeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C3892EC20B795F700A10A0C /* WelcomeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C38932020B799F500A10A0C /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C38931F20B799F500A10A0C /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5C3892E920B795F700A10A0C /* WelcomeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WelcomeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C3892EC20B795F700A10A0C /* WelcomeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeKit.h; sourceTree = "<group>"; };
 		5C3892ED20B795F700A10A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C38931F20B799F500A10A0C /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		5CA2C69420B7AA1B00836913 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -52,7 +50,6 @@
 			children = (
 				5C3892EC20B795F700A10A0C /* WelcomeKit.h */,
 				5C3892ED20B795F700A10A0C /* Info.plist */,
-				5C38931F20B799F500A10A0C /* WelcomeViewController.swift */,
 			);
 			path = WelcomeKit;
 			sourceTree = "<group>";
@@ -144,7 +141,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C38932020B799F500A10A0C /* WelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

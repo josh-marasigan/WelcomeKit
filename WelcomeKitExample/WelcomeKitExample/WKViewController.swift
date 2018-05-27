@@ -1,33 +1,42 @@
 //
-//  WelcomeViewController.swift
-//  WelcomeKit
+//  WKViewController.swift
+//  WelcomeKitExample
 //
-//  Created by Josh Marasigan on 5/24/18.
+//  Created by Josh Marasigan on 5/27/18.
 //  Copyright © 2018 Josh Marasigan. All rights reserved.
 //
 
 import Foundation
+import UIKit
+import SnapKit
 
-public class WelcomeViewController: UIViewController {
+class WKViewController: UIViewController {
     
     // MARK: - Parameters
     private var leadColor: UIColor?
     private var secondaryColor: UIColor?
     private var gradientBackgroundColor = CAGradientLayer()
     
+    fileprivate lazy var pageContentView: WKPageContentView = {
+        let contentView = WKPageContentView(
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal)
+        return contentView
+    }()
+    
     // MARK: - Init
-    public init(leadColor: UIColor?, secondaryColor: UIColor?) {
+    init(leadColor: UIColor?, secondaryColor: UIColor?) {
         self.leadColor = leadColor
         self.secondaryColor = secondaryColor
         super.init(nibName: nil, bundle: nil)
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     // MARK: - Lifecycle
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.configUI()
     }
@@ -35,6 +44,13 @@ public class WelcomeViewController: UIViewController {
     // MARK: - UI
     private func configUI() {
         self.setBackgroundColor()
+        
+        self.view.addSubview(self.pageContentView.view)
+        self.pageContentView.view.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(264)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-64)
+        }
     }
     
     private func setBackgroundColor() {

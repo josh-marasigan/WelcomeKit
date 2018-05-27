@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         let leadColor = UIColor(red:1.00, green:0.60, blue:0.62, alpha:1.0)
         let secondaryColor = UIColor(red:0.98, green:0.82, blue:0.77, alpha:1.0)
 
-        let welcomeVC = WelcomeViewController(
+        let welcomeVC = WKViewController(
             leadColor: leadColor,
             secondaryColor: secondaryColor
         )
