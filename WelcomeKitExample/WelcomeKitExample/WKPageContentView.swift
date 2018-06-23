@@ -28,14 +28,16 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
     fileprivate weak var contenViewDelegate: WKPageContentViewDelegate?
     
     // MARK: - Initializers
+    /// WKPageContentView inherits from UIPageViewController (also delegating to itselfs data source)
+    ///
+    /// - Parameters:
+    ///   - pages: WKPageView(s) to be displayed as a subview of WKPageContentView
+    ///   - delegate: WKPageContentViewDelegate to inform conforming classes on page state changes
     init(
-        transitionStyle style: UIPageViewControllerTransitionStyle,
-        navigationOrientation: UIPageViewControllerNavigationOrientation,
         pages: [WKPageView],
-        delegate: WKPageContentViewDelegate,
-        options: [String : Any]? = nil)
+        delegate: WKPageContentViewDelegate)
     {
-        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.pages = pages
         self.configUI()
     }

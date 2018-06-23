@@ -16,10 +16,11 @@ class WKPageView: UIViewController {
     fileprivate var viewModel: WKPageViewModelType!
     fileprivate var titleLabel: UILabel!
     fileprivate var descriptionLabel: UILabel!
-    
     private var contentView: UIView!
-    private let sidePadding = 32
     
+    /// WKPageView holds the actual displayable content for one 'page'
+    ///
+    /// - Parameter viewModel: A WKPageViewModelType instance holding the text information
     convenience init(viewModel: WKPageViewModelType) {
         self.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -34,8 +35,8 @@ class WKPageView: UIViewController {
         
         self.contentView?.snp.makeConstraints { (make) in
             make.bottom.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(sidePadding)
-            make.trailing.equalToSuperview().offset(-sidePadding)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
         }
         
         self.contentView.addSubview(self.titleLabel)

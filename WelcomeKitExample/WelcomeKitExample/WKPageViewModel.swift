@@ -19,6 +19,11 @@ class WKPageViewModel: WKPageViewModelType {
     var title: String?
     var description: String?
     
+    /// WKPageViewModel
+    ///
+    /// - Parameters:
+    ///   - title: The title text for a WKPageView
+    ///   - description: The subtitle text for a WKPageView
     init(title: String?, description: String?) {
         self.title = title
         self.description = description
