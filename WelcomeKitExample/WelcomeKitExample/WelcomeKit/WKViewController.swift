@@ -20,6 +20,8 @@ class WKViewController: UIViewController {
     private var paddingBetween: Int?
     private var animationViewHeight: Int?
     private var animationViewWidth: Int?
+    private var sideContentPadding: Int?
+    private var verticalContentPadding: Int?
     
     // MARK: - Animation File (JSON)
     fileprivate var animationView: LOTAnimationView!
@@ -46,6 +48,8 @@ class WKViewController: UIViewController {
     ///   - paddingBetween: Optional Int value for padding between pageViews and animationView
     ///   - animationViewHeight: Optional Int value to indicate the animationView's height
     ///   - animationViewWidth: Optional Int value to indicate the animationView's width
+    ///   - sideContentPadding: Optional Int value indicating main view's horizontal padding
+    ///   - verticalContentPadding: Optional Int value indicating main view's vertical padding
     ///   - animationViewContentMode: Optional ContentMode enum for animationView's contentMode
     init(primaryColor: UIColor,
          secondaryColor: UIColor?,
@@ -54,6 +58,8 @@ class WKViewController: UIViewController {
          paddingBetween: Int? = nil,
          animationViewHeight: Int? = nil,
          animationViewWidth: Int? = nil,
+         sideContentPadding: Int? = nil,
+         verticalContentPadding: Int? = nil,
          animationViewContentMode: UIView.ContentMode? = nil)
     {
         // Set solid color or color gradient for our WKViewController's background
@@ -69,6 +75,10 @@ class WKViewController: UIViewController {
         // Animation view optional dimentions
         self.animationViewHeight = animationViewHeight
         self.animationViewWidth = animationViewWidth
+        
+        // Set padding for the main content view if indicated
+        self.sideContentPadding = sideContentPadding
+        self.verticalContentPadding = verticalContentPadding
         
         // Size animation file to fit its content
         self.animationView = animationView
@@ -95,8 +105,18 @@ class WKViewController: UIViewController {
     private func configUI() {
         self.setBackgroundColor()
         
+        // Container View for pageviews and animationView w/ optional padding
+        let contentView = UIView()
+        self.view.addSubview(contentView)
+        contentView.snp.makeConstraints { (make) in
+            make.leading.equalToSuperview().offset(self.sideContentPadding ?? 0)
+            make.trailing.equalToSuperview().offset(-(self.sideContentPadding ?? 0))
+            make.top.equalToSuperview().offset(self.verticalContentPadding ?? 0)
+            make.bottom.equalToSuperview().offset(-(self.verticalContentPadding ?? 0))
+        }
+        
         // Add our LOTAnimationView instance to the view hierarchy
-        self.view.addSubview(animationView)
+        contentView.addSubview(animationView)
         self.animationView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             
@@ -110,7 +130,7 @@ class WKViewController: UIViewController {
         }
         
         // Display your pageContentView by adding it to the super view
-        self.view.addSubview(self.pageContentView.view)
+        contentView.addSubview(self.pageContentView.view)
         self.pageContentView.view.snp.makeConstraints { (make) in
             make.top.equalTo(self.animationView.snp.bottom).offset(paddingBetween ?? 0)
             make.leading.trailing.equalToSuperview()

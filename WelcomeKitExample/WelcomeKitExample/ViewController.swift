@@ -39,7 +39,11 @@ class ViewController: UIViewController {
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
             pageViews: pageViews,
-            animationView: mainAnimationView
+            animationView: mainAnimationView,
+            
+            // Optional Parameters
+            sideContentPadding: 32,
+            verticalContentPadding: 32
         )
         
         // Auto Layout
@@ -66,19 +70,30 @@ class ViewController: UIViewController {
         // Second Page
         let secondPageDescription =
         """
-        This is the middle page in our welcome pages. Swipe left or right and to see our animation play in their designated start times.
+        This is the middle page in our welcome pages.
+
+        Swipe left or right and to see our animation play in their designated start times.
         """
-        let secondPageViewModel = WKPageViewModel(title: "Second Title",description: secondPageDescription)
+        let secondPageViewModel = WKPageViewModel(title: "Next Title",description: secondPageDescription)
         let secondPage = WKPageView(viewModel: secondPageViewModel)
         
         // Last Page
         let thirdPageDescription =
         """
         You've reached the end of our onboarding screens, feel free to add more.
+
         As you can see, we can arbitrarily append pages. Just be sure to configure animation speed accordingly.
         """
         let thirdPageViewModel = WKPageViewModel(title: "Last Title", description: thirdPageDescription)
         let thirdPage = WKPageView(viewModel: thirdPageViewModel)
+        
+        // If desired, you can also edit WKPageView's UILabel properties for styling
+        firstPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
+        firstPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        secondPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
+        secondPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        thirdPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
+        thirdPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
         
         // Set pages to view controller list, track via 'pages' array
         pages.append(firstPage)

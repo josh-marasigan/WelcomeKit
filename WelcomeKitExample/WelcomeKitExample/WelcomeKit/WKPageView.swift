@@ -14,9 +14,11 @@ class WKPageView: UIViewController {
     
     // MARK: - Properties
     fileprivate var viewModel: WKPageViewModelType!
-    fileprivate var titleLabel: UILabel!
-    fileprivate var descriptionLabel: UILabel!
     private var contentView: UIView!
+    
+    // MARK: - Public Properties
+    public var titleLabel: UILabel!
+    public var descriptionLabel: UILabel!
     
     /// WKPageView holds the actual displayable content for one 'page'
     ///

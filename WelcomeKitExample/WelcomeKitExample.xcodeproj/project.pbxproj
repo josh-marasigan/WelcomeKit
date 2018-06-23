@@ -107,12 +107,9 @@
 		5C3892FF20B7961700A10A0C /* WelcomeKitExample */ = {
 			isa = PBXGroup;
 			children = (
+				5C65EED720DEF70B0014A521 /* WelcomeKit */,
 				5C38930020B7961700A10A0C /* AppDelegate.swift */,
 				5C38930220B7961800A10A0C /* ViewController.swift */,
-				5C8674D620BB4AAD00218C10 /* WKViewController.swift */,
-				5C8674D820BB4CEC00218C10 /* WKPageContentView.swift */,
-				5C8674DA20BB500600218C10 /* WKPageView.swift */,
-				5C8674DC20BB503000218C10 /* WKPageViewModel.swift */,
 				5C38930420B7961800A10A0C /* Main.storyboard */,
 				5C38930720B7961800A10A0C /* Assets.xcassets */,
 				5C65EED320DED8360014A521 /* servishero_loading.json */,
@@ -128,6 +125,17 @@
 				5C38931720B7962B00A10A0C /* WelcomeKit.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5C65EED720DEF70B0014A521 /* WelcomeKit */ = {
+			isa = PBXGroup;
+			children = (
+				5C8674D620BB4AAD00218C10 /* WKViewController.swift */,
+				5C8674D820BB4CEC00218C10 /* WKPageContentView.swift */,
+				5C8674DA20BB500600218C10 /* WKPageView.swift */,
+				5C8674DC20BB503000218C10 /* WKPageViewModel.swift */,
+			);
+			path = WelcomeKit;
 			sourceTree = "<group>";
 		};
 		C5B0983272AC90B8FDF85CF7 /* Frameworks */ = {
