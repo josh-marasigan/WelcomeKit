@@ -29,7 +29,8 @@ class WKViewController: UIViewController {
     fileprivate lazy var pageContentView: WKPageContentView = {
         let contentView = WKPageContentView(
             pages: self.pageViews,
-            delegate: self)
+            delegate: self,
+            pageControlColor: UIColor.white)
         return contentView
     }()
     

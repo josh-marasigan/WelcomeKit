@@ -23,6 +23,7 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
     fileprivate var pages = [UIViewController]()
     fileprivate let pageControl = UIPageControl()
     fileprivate var pageStackCount = 0
+    fileprivate var pageControlColor: UIColor?
     
     // MARK: - WKPageContentViewDelegate Instance
     fileprivate weak var contenViewDelegate: WKPageContentViewDelegate?
@@ -33,12 +34,15 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
     /// - Parameters:
     ///   - pages: WKPageView(s) to be displayed as a subview of WKPageContentView
     ///   - delegate: WKPageContentViewDelegate to inform conforming classes on page state changes
+    ///   - pageControlColor: Optional UIColor value for the UIPageControl indicator
     init(
         pages: [WKPageView],
-        delegate: WKPageContentViewDelegate)
+        delegate: WKPageContentViewDelegate,
+        pageControlColor: UIColor? = nil)
     {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.pages = pages
+        self.pageControlColor = pageControlColor
         self.configUI()
     }
     
@@ -62,8 +66,7 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
         self.delegate = self
         
         // Starting index of our welcome pages
-        let startIndex = 0
-        setViewControllers([pages[startIndex]], direction: .forward, animated: true, completion: nil)
+        setViewControllers([pages[0]], direction: .forward, animated: true, completion: nil)
         
         self.configPageControl()
         
@@ -76,10 +79,12 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
     
     // Helper to set page control properites
     private func configPageControl() {
-        self.pageControl.currentPageIndicatorTintColor = UIColor.white
-        self.pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.4)
         self.pageControl.numberOfPages = self.pages.count
         self.pageControl.currentPage = 0
+        
+        self.pageControl.currentPageIndicatorTintColor = (self.pageControlColor ?? UIColor.white)
+        self.pageControl.pageIndicatorTintColor =
+            (self.pageControlColor ?? UIColor.white).withAlphaComponent(0.4)
     }
 }
 
@@ -92,6 +97,7 @@ extension WKPageContentView: UIPageViewControllerDelegate {
         
         if let pageIndex = self.pages.index(of: viewController) {
             self.contenViewDelegate?.onPreviousPage(pageIndex: pageIndex)
+            self.pageControl.currentPage = pageIndex
             return self.pages[pageIndex]
         }
         
@@ -106,6 +112,7 @@ extension WKPageContentView: UIPageViewControllerDelegate {
         
         if let pageIndex = self.pages.index(of: viewController) {
             self.contenViewDelegate?.onNextPage(pageIndex: pageIndex)
+            self.pageControl.currentPage = pageIndex
             return self.pages[pageIndex]
         }
         
