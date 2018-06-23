@@ -10,23 +10,33 @@ import Foundation
 import UIKit
 import SnapKit
 
+// MARK: - WKPageContentViewDelegate
+// Sends action events to WKViewController that an interaction occured
+protocol WKPageContentViewDelegate: class {
+    func onNextPage(pageIndex: Int)
+    func onPreviousPage(pageIndex: Int)
+}
+
 class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
+    
     // MARK: - Properties
     fileprivate var pages = [UIViewController]()
     fileprivate let pageControl = UIPageControl()
     fileprivate var pageStackCount = 0
     
-    /* Replace with after effect animation */
-    fileprivate var pageImage: UIImageView?
+    // MARK: - WKPageContentViewDelegate Instance
+    fileprivate weak var contenViewDelegate: WKPageContentViewDelegate?
     
     // MARK: - Initializers
-    override init(
+    init(
         transitionStyle style: UIPageViewControllerTransitionStyle,
         navigationOrientation: UIPageViewControllerNavigationOrientation,
+        pages: [WKPageView],
+        delegate: WKPageContentViewDelegate,
         options: [String : Any]? = nil)
     {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
-        self.hidesBottomBarWhenPushed = true
+        self.pages = pages
         self.configUI()
     }
     
@@ -34,67 +44,73 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
         super.init(coder: coder)
     }
     
+    // MARK: - Initializer to set delegate to be notified of user interactions
+    func setDelegate(delegate: WKPageContentViewDelegate) {
+        self.contenViewDelegate = delegate
+    }
+    
     // MARK: - UI
     private func configUI() {
-        self.pageImage = UIImageView()
         self.configPages()
     }
     
     private func configPages() {
+        // Set delegates to self to receive actions
         self.dataSource = self
+        self.delegate = self
+        
+        // Starting index of our welcome pages
         let startIndex = 0
-        
-        let firstPageViewModel = WKPageViewModel(
-            title: NSLocalizedString("She say", comment: ""),
-            description: NSLocalizedString("Do you love me?", comment: ""),
-            image: nil)
-        let firstPage = WKPageView(viewModel: firstPageViewModel)
-
-        let secondPageViewModel = WKPageViewModel(
-            title: NSLocalizedString("I tell her", comment: ""),
-            description: NSLocalizedString("Only partly.", comment: ""),
-            image: nil)
-        let secondPage = WKPageView(viewModel: secondPageViewModel)
-        
-        let thirdPageViewModel = WKPageViewModel(
-            title: NSLocalizedString("I only love my bed and my momma", comment: ""),
-            description: NSLocalizedString("I'm sorry.", comment: ""),
-            image: nil)
-        let thirdPage = WKPageView(viewModel: thirdPageViewModel)
-        
-        self.pages.append(firstPage)
-        self.pages.append(secondPage)
-        self.pages.append(thirdPage)
         setViewControllers([pages[startIndex]], direction: .forward, animated: true, completion: nil)
         
-        self.pageControl.currentPageIndicatorTintColor = UIColor.white
-        self.pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.4)
-        self.pageControl.numberOfPages = self.pages.count
-        self.pageControl.currentPage = startIndex
+        self.configPageControl()
         
+        // Add page control to parent view and set its edges
         self.view.addSubview(self.pageControl)
         self.pageControl.snp.makeConstraints { (make) in
             make.leading.trailing.bottom.equalToSuperview()
         }
-        
+    }
+    
+    // Helper to set page control properites
+    private func configPageControl() {
+        self.pageControl.currentPageIndicatorTintColor = UIColor.white
+        self.pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.4)
+        self.pageControl.numberOfPages = self.pages.count
+        self.pageControl.currentPage = 0
     }
 }
 
-/* UIPageViewController Delegate */
-extension WKPageContentView {
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerBefore viewController: UIViewController)
-        -> UIViewController?
-    {
-        return UIViewController()
+// MARK: - UIPageViewController Delegate
+extension WKPageContentView: UIPageViewControllerDelegate {
+    
+    // Called after if user goes to a previous page
+    func pageViewController(_ pageViewController: UIPageViewController,
+        viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        
+        if let pageIndex = self.pages.index(of: viewController) {
+            self.contenViewDelegate?.onPreviousPage(pageIndex: pageIndex)
+            return self.pages[pageIndex]
+        }
+        
+        // If we are at the left most page,
+        // return the first page
+        return self.pages[0]
     }
     
-    func pageViewController(
-        _ pageViewController: UIPageViewController,
-        viewControllerAfter viewController: UIViewController)
-        -> UIViewController?
-    {
-        return UIViewController()
+    // Called after if user goes to the next page
+    func pageViewController(_ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        
+        if let pageIndex = self.pages.index(of: viewController) {
+            self.contenViewDelegate?.onNextPage(pageIndex: pageIndex)
+            return self.pages[pageIndex]
+        }
+        
+        // If we are at the right most page,
+        // return the last page
+        return self.pages[pages.count - 1]
     }
 }
+
+

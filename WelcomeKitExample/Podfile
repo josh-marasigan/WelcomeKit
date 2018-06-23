@@ -6,5 +6,6 @@ target 'WelcomeKitExample' do
 
     # Pods for WelcomeKitExample
     pod 'SnapKit'
+    pod 'lottie-ios'
 end
 

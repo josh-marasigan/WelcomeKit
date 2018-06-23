@@ -12,18 +12,15 @@ import UIKit
 protocol WKPageViewModelType {
     var title: String? { get set }
     var description: String? { get set }
-    var image: UIImage? { get set }
 }
 
 class WKPageViewModel: WKPageViewModelType {
     // MARK: - Properties
     var title: String?
     var description: String?
-    var image: UIImage?
     
-    init(title: String?, description: String?, image: UIImage?) {
+    init(title: String?, description: String?) {
         self.title = title
         self.description = description
-        self.image = image
     }
 }

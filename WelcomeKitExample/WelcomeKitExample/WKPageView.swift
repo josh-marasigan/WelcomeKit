@@ -33,7 +33,7 @@ class WKPageView: UIViewController {
         self.view.addSubview(self.contentView)
         
         self.contentView?.snp.makeConstraints { (make) in
-            make.top.bottom.equalToSuperview()
+            make.bottom.top.equalToSuperview()
             make.leading.equalToSuperview().offset(sidePadding)
             make.trailing.equalToSuperview().offset(-sidePadding)
         }
@@ -58,13 +58,13 @@ class WKPageView: UIViewController {
         self.titleLabel?.lineBreakMode = .byWordWrapping
         self.titleLabel?.numberOfLines = 0
         self.titleLabel?.text = self.viewModel.title
-//        self.titleLabel?.font = UIFont.tcBoldFont(size: 28)
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 28.0)
         self.titleLabel?.textColor = UIColor.white
         
         self.descriptionLabel?.lineBreakMode = .byWordWrapping
         self.descriptionLabel?.numberOfLines = 0
         self.descriptionLabel?.text = self.viewModel.description
-//        self.descriptionLabel?.font = UIFont.tcRegularFont(size: 16)
+        self.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
         self.descriptionLabel?.textColor = UIColor.white
     }
 }

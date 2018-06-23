@@ -15,6 +15,7 @@
 		5C38930B20B7961800A10A0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C38930920B7961800A10A0C /* LaunchScreen.storyboard */; };
 		5C38931820B7964D00A10A0C /* WelcomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C38931720B7962B00A10A0C /* WelcomeKit.framework */; };
 		5C38931920B7964D00A10A0C /* WelcomeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C38931720B7962B00A10A0C /* WelcomeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5C65EED420DED8360014A521 /* servishero_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C65EED320DED8360014A521 /* servishero_loading.json */; };
 		5C8674D720BB4AAD00218C10 /* WKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8674D620BB4AAD00218C10 /* WKViewController.swift */; };
 		5C8674D920BB4CEC00218C10 /* WKPageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8674D820BB4CEC00218C10 /* WKPageContentView.swift */; };
 		5C8674DB20BB500600218C10 /* WKPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8674DA20BB500600218C10 /* WKPageView.swift */; };
@@ -63,6 +64,7 @@
 		5C38930A20B7961800A10A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C38930C20B7961800A10A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C38931220B7962B00A10A0C /* WelcomeKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WelcomeKit.xcodeproj; path = ../WelcomeKit/WelcomeKit.xcodeproj; sourceTree = "<group>"; };
+		5C65EED320DED8360014A521 /* servishero_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = servishero_loading.json; sourceTree = "<group>"; };
 		5C8674D620BB4AAD00218C10 /* WKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKViewController.swift; sourceTree = "<group>"; };
 		5C8674D820BB4CEC00218C10 /* WKPageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKPageContentView.swift; sourceTree = "<group>"; };
 		5C8674DA20BB500600218C10 /* WKPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKPageView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				5C8674DC20BB503000218C10 /* WKPageViewModel.swift */,
 				5C38930420B7961800A10A0C /* Main.storyboard */,
 				5C38930720B7961800A10A0C /* Assets.xcassets */,
+				5C65EED320DED8360014A521 /* servishero_loading.json */,
 				5C38930920B7961800A10A0C /* LaunchScreen.storyboard */,
 				5C38930C20B7961800A10A0C /* Info.plist */,
 			);
@@ -224,6 +227,7 @@
 			files = (
 				5C38930B20B7961800A10A0C /* LaunchScreen.storyboard in Resources */,
 				5C38930820B7961800A10A0C /* Assets.xcassets in Resources */,
+				5C65EED420DED8360014A521 /* servishero_loading.json in Resources */,
 				5C38930620B7961800A10A0C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,10 +261,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-WelcomeKitExample/Pods-WelcomeKitExample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
