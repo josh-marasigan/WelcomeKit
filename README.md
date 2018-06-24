@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="540" height="175" src="http://tinyimg.io/i/5uu7IFf.png"><br>
+  <img width="549" height="175" src="http://tinyimg.io/i/5uu7IFf.png"><br>
 </p>
 
 ## Inspiration
@@ -9,10 +9,10 @@ WelcomeKit aims to be an easy to use iOS Library for creating beautiful user onb
 Every time I see animated welcome/onboarding screens that match a user's drag or interaction speed, I always go "how in the world do they do that?". Manually animating drawn or geometric shapes/components seemed like a really daunting task, but with AirBnb's <a href="https://github.com/airbnb/lottie-ios" style="text-decoration: none"><b>Lottie</b></a> Animation Library, and Adobe After Effects, we're able to make these same user experiences without the technical overhead by delegating animation efforts to the designer.
 
 <p align="center"><br>
-<img src="https://github.com/josh-marasigan/WelcomeKit/blob/master/WelcomeKitExample.gif" width="375" height="667" />
+<img src="https://github.com/josh-marasigan/WelcomeKit/blob/master/WelcomeKitExample.gif" width="360" height="667" />
 </p>
 
-## Dependencies:
+## Dependencies
 
 WelcomeKit requires `Lottie` and `SnapKit` as dependencies. 
 
@@ -27,12 +27,11 @@ pod 'lottie-ios'
 pod 'SnapKit'
 ```
 
-Finally, `cd` to the current project directory (make sure you are in the same directory as the Podfile) :
+Finally, `cd` to the current project directory (make sure you are in the same directory as the Podfile) and run:
 
-Run:
- `pod install`
+`pod install`
 
-## How Does It Work?:
+## How Does It Work?
 
 Internally, each 'page' in `WKPageContentView` is a UIViewController subclass named `WKPageView`.
 
@@ -55,6 +54,7 @@ class WKViewController: UIViewController {
              .
              .
              .
+             // Optional Parameters
 ```
 
 `primaryColor` and `secondaryColor` are for WKViewController's background color gradient. If `secondaryColor` is set to nil, the background will default to a solid `primaryColor` instead of a gradient.
@@ -178,5 +178,5 @@ class ViewController: UIViewController {
 ```
 ## Thanks For Reading!
 
-- If you would like to contribute, feel free to submit a pull request.
-- If you would like to request a feature or report a bug, feel free to create an issue.
+- If you want to contribute, feel free to submit a pull request.
+- If you woud like to request a feature or report a bug, feel free to create an issue.
