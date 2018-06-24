@@ -14,22 +14,16 @@ import Lottie
 class WKViewController: UIViewController {
     
     // MARK: - Properties
-    private var currentPage = 0
-    
-    // MARK: - Optional Properties
     private var paddingBetween: Int?
     private var animationViewHeight: Int?
     private var animationViewWidth: Int?
-    private var sideContentPadding: Int?
-    private var verticalContentPadding: Int?
     
     // MARK: - Animation File (JSON) and properties
-    fileprivate var animationView: LOTAnimationView!
-    private var evenAnimationTimePartition: CGFloat = 0.1
+    private var animationView: LOTAnimationView!
+    private var evenAnimationTimePartition: CGFloat!
     private var customAnimationTimePartitions: [CGFloat]? = [CGFloat]()
     
     // MARK: - Page Content Components
-    private var contentView: UIView!
     private var pageViews: [WKPageView]!
     private lazy var pageContentView: WKPageContentView = {
         let contentView = WKPageContentView(
@@ -39,29 +33,28 @@ class WKViewController: UIViewController {
         return contentView
     }()
     
-    // MARK: - Init
+    private lazy var contentView: UIView = { return UIView() }()
+    private var currentPage = 0
+    
     /// WKViewController is a UIViewController class that displays a set amount of content views (WKPageViews)
     /// with an animationView (LOTAnimationView).
     /// - Parameters:
-    ///   - pageViews:
-    ///   - animationView:
-    ///   - evenAnimationTimePartition:
-    ///   - customAnimationTimePartitions:
-    ///   - paddingBetween:
-    ///   - animationViewHeight:
-    ///   - animationViewWidth:
-    ///   - sideContentPadding:
-    ///   - verticalContentPadding: 
+    ///   - pageViews: WKPageViews to be displayed by our controller
+    ///   - animationView: Animation file exported from Adobe AE
+    ///   - evenAnimationTimePartition: Animation progrss level for every swipe
+    ///   - customAnimationTimePartitions: Array of animation progress level with each index correlating to a page
+    ///   - paddingBetween: Optional padding between the animationView and the pageViews
+    ///   - animationViewHeight: Optional animationView height
+    ///   - animationViewWidth: Optional animationView width
     init(
          pageViews: [WKPageView],
          animationView: LOTAnimationView,
-         evenAnimationTimePartition: CGFloat?,
+         evenAnimationTimePartition: CGFloat,
+         
          customAnimationTimePartitions: [CGFloat]? = nil,
          paddingBetween: Int? = nil,
          animationViewHeight: Int? = nil,
-         animationViewWidth: Int? = nil,
-         sideContentPadding: Int? = nil,
-         verticalContentPadding: Int? = nil)
+         animationViewWidth: Int? = nil)
     {
         // Set pages to be seen in our onboarding flow
         self.pageViews = pageViews
@@ -73,12 +66,8 @@ class WKViewController: UIViewController {
         self.animationViewHeight = animationViewHeight
         self.animationViewWidth = animationViewWidth
         
-        // Set padding for the main content view if indicated
-        self.sideContentPadding = sideContentPadding
-        self.verticalContentPadding = verticalContentPadding
-        
         // Animation partition times
-        self.evenAnimationTimePartition = evenAnimationTimePartition ?? CGFloat(1/pageViews.count)
+        self.evenAnimationTimePartition = evenAnimationTimePartition
         self.customAnimationTimePartitions = customAnimationTimePartitions
         
         // Optional resize of the animation file to fit its content
@@ -104,13 +93,9 @@ class WKViewController: UIViewController {
     // MARK: - UI
     private func configUI() {
         // Container View for pageviews and animationView w/ optional padding
-        self.contentView = UIView()
         self.view.addSubview(self.contentView)
         self.contentView.snp.makeConstraints { (make) in
-            make.leading.equalToSuperview().offset(self.sideContentPadding ?? 0)
-            make.trailing.equalToSuperview().offset(-(self.sideContentPadding ?? 0))
-            make.top.equalToSuperview().offset(self.verticalContentPadding ?? 0)
-            make.bottom.equalToSuperview().offset(-(self.verticalContentPadding ?? 0))
+            make.edges.equalToSuperview()
         }
         
         // Add our LOTAnimationView instance to the view hierarchy

@@ -101,17 +101,14 @@ class ViewController: UIViewController {
         self.welcomeVC = WKViewController(
             pageViews: pageViews,
             animationView: mainAnimationView,
-            evenAnimationTimePartition: 0.118,
-
-            // Optional Parameters
-            sideContentPadding: 32,
-            verticalContentPadding: 32
+            evenAnimationTimePartition: 0.118
         )
 
         // Auto Layout
         self.view.addSubview(self.welcomeVC.view)
         self.welcomeVC.view.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.top.leading.equalToSuperview().offset(32)
+            make.bottom.trailing.equalToSuperview().offset(-32)
         }
     }
 
