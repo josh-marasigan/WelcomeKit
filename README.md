@@ -47,11 +47,10 @@ class WKViewController: UIViewController {
     init(
     pageViews: [WKPageView],
     animationView: LOTAnimationView,
-    evenAnimationTimePartition: CGFloat?,
-    .
-    // Optional Parameters
-    .
+    evenAnimationTimePartition: CGFloat
     )
+    .
+}
 ```
  `pageViews` is an array of WKPageViews (UIViewController subclass) representing the 'Title' and 'Subtitle' Views which the Page Controller transitions. Swiping to the left (if not at the first page) or right (if not at the last page) will execute an animation chunk for our animationView.
  
