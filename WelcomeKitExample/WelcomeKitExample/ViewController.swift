@@ -31,21 +31,18 @@ class ViewController: UIViewController {
     
     // MARK: - UI
     private func configUI() {
-        // WKViewController Parameter Instances
-        let primaryColor = UIColor(red:1.00, green:0.60, blue:0.62, alpha:1.0)
-        let secondaryColor = UIColor(red:0.98, green:0.82, blue:0.77, alpha:1.0)
+        self.setBackgroundColor()
         
         // Create LOTAnimationView instance and set configurations
         self.mainAnimationView = LOTAnimationView(name: "servishero_loading")
         self.mainAnimationView.animationSpeed = 0.5
+        self.mainAnimationView.contentMode = .scaleAspectFit
         
         // Instantiate the page views to be displayed
         self.pageViews = configPageViews()
         
         // Instantiating a WKViewController
         self.welcomeVC = WKViewController(
-            primaryColor: primaryColor,
-            secondaryColor: secondaryColor,
             pageViews: pageViews,
             animationView: mainAnimationView,
             evenAnimationTimePartition: 0.118,
@@ -66,37 +63,22 @@ class ViewController: UIViewController {
     private func configPageViews() -> [WKPageView] {
         var pages = [WKPageView]()
         
-        // First Page
-        let firstPageDescription =
-        """
-        This is the first page in our welcome pages. The animation should have started to perform its animation.
-
-        If an animation progression was indicated, this animation should not have gone past the designated animation progression value (these are from 0 to 1).
-        """
-        let firstPageViewModel = WKPageViewModel(title: "First Title", description: firstPageDescription)
+        let firstPageViewModel = WKPageViewModel(
+            title: "First Title",
+            description: "This is the first page in our welcome pages.")
         let firstPage = WKPageView(viewModel: firstPageViewModel)
         
-        // Second Page
-        let secondPageDescription =
-        """
-        This is the middle page in our welcome pages.
-
-        Swipe left or right and to see our animation play in their designated start times.
-        """
-        let secondPageViewModel = WKPageViewModel(title: "Next Title",description: secondPageDescription)
+        let secondPageViewModel = WKPageViewModel(
+            title: "Next Title",
+            description: "This is the middle page in our welcome pages.")
         let secondPage = WKPageView(viewModel: secondPageViewModel)
         
-        // Last Page
-        let lastPageDescription =
-        """
-        You've reached the end of our onboarding screens, feel free to add more.
-
-        As you can see, we can arbitrarily append pages. Just be sure to configure animation speed accordingly.
-        """
-        let lastPageViewModel = WKPageViewModel(title: "Last Title", description: lastPageDescription)
+        let lastPageViewModel = WKPageViewModel(
+            title: "Last Title",
+            description: "You've reached the end of our onboarding screens.")
         let lastPage = WKPageView(viewModel: lastPageViewModel)
         
-        // If desired, you can also edit WKPageView's UILabel properties for styling
+        // You can also edit WKPageView's UILabel properties for styling
         firstPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
         firstPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
         
@@ -106,11 +88,23 @@ class ViewController: UIViewController {
         lastPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
         lastPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
         
-        // Set pages to view controller list, track via 'pages' array
         pages.append(firstPage)
         pages.append(secondPage)
         pages.append(lastPage)
         return pages
+    }
+    
+    private func setBackgroundColor() {
+        // Set gradient properties and clip to bounds
+        let primaryColor = UIColor(red:1.00, green:0.60, blue:0.62, alpha:1.0)
+        let secondaryColor = UIColor(red:0.98, green:0.82, blue:0.77, alpha:1.0)
+        
+        let gradientBackgroundColor = CAGradientLayer()
+        gradientBackgroundColor.frame = self.view.bounds
+        gradientBackgroundColor.colors = [primaryColor.cgColor, secondaryColor.cgColor]
+        gradientBackgroundColor.startPoint = CGPoint(x: 1, y: 1)
+        gradientBackgroundColor.endPoint = CGPoint(x: 1, y: 0)
+        self.view.layer.addSublayer(gradientBackgroundColor)
     }
 }
 

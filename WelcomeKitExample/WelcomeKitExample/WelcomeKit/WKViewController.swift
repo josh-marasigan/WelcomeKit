@@ -14,9 +14,6 @@ import Lottie
 class WKViewController: UIViewController {
     
     // MARK: - Properties
-    private var primaryColor = UIColor.white
-    private var secondaryColor: UIColor?
-    private var gradientBackgroundColor = CAGradientLayer()
     private var currentPage = 0
     
     // MARK: - Optional Properties
@@ -45,26 +42,17 @@ class WKViewController: UIViewController {
     // MARK: - Init
     /// WKViewController is a UIViewController class that displays a set amount of content views (WKPageViews)
     /// with an animationView (LOTAnimationView).
-    ///
     /// - Parameters:
-    ///   - primaryColor: Leading color for the background gradient. Defaults to white.
-    ///   - secondaryColor: Trailing color for the background gradient. Defaults to nil.
-    ///   - pageViews: The WKPageView(s) to be displayed
-    ///   - animationView: The LOTAnimationView to be display along with the pageViews
-    ///   - evenAnimationTimePartition: The interval of progress used to animate the animationView
-    ///     when transitioning between pages. Use only if your animationView can be animated in even
-    ///     chunks. Progress on the animation will stop if the animation ends prior to the last page.
-    ///   - customAnimationTimePartitions: The intervals of progress used to animate the aimationView
-    ///     when transitioning between pages. Count must not exceed the number of pages, and
-    ///     the ending index must be of value '1', indicating the end of the animation progress.
-    ///   - paddingBetween: Optional Int value for padding between pageViews and animationView
-    ///   - animationViewHeight: Optional Int value to indicate the animationView's height
-    ///   - animationViewWidth: Optional Int value to indicate the animationView's width
-    ///   - sideContentPadding: Optional Int value indicating main view's horizontal padding
-    ///   - verticalContentPadding: Optional Int value indicating main view's vertical padding
-    ///   - animationViewContentMode: Optional ContentMode enum for animationView's contentMode
-    init(primaryColor: UIColor,
-         secondaryColor: UIColor?,
+    ///   - pageViews:
+    ///   - animationView:
+    ///   - evenAnimationTimePartition:
+    ///   - customAnimationTimePartitions:
+    ///   - paddingBetween:
+    ///   - animationViewHeight:
+    ///   - animationViewWidth:
+    ///   - sideContentPadding:
+    ///   - verticalContentPadding: 
+    init(
          pageViews: [WKPageView],
          animationView: LOTAnimationView,
          evenAnimationTimePartition: CGFloat?,
@@ -73,13 +61,8 @@ class WKViewController: UIViewController {
          animationViewHeight: Int? = nil,
          animationViewWidth: Int? = nil,
          sideContentPadding: Int? = nil,
-         verticalContentPadding: Int? = nil,
-         animationViewContentMode: UIView.ContentMode? = nil)
+         verticalContentPadding: Int? = nil)
     {
-        // Set solid color or color gradient for our WKViewController's background
-        self.primaryColor = primaryColor
-        self.secondaryColor = secondaryColor
-        
         // Set pages to be seen in our onboarding flow
         self.pageViews = pageViews
         
@@ -100,8 +83,6 @@ class WKViewController: UIViewController {
         
         // Optional resize of the animation file to fit its content
         self.animationView = animationView
-        self.animationView.contentMode = animationViewContentMode ?? .scaleAspectFit
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -122,8 +103,6 @@ class WKViewController: UIViewController {
     
     // MARK: - UI
     private func configUI() {
-        self.setBackgroundColor()
-        
         // Container View for pageviews and animationView w/ optional padding
         self.contentView = UIView()
         self.view.addSubview(self.contentView)
@@ -155,22 +134,6 @@ class WKViewController: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-    }
-    
-    // Set the background color to your desired gradient
-    private func setBackgroundColor() {
-        // If only one color (primaryColor) was set, no gradient will be applied
-        guard let secondaryColor = self.secondaryColor else {
-            self.view.backgroundColor = self.primaryColor
-            return
-        }
-        
-        // Set gradient properties and clip to bounds
-        self.gradientBackgroundColor.frame = self.view.bounds
-        self.gradientBackgroundColor.colors = [primaryColor.cgColor, secondaryColor.cgColor]
-        self.gradientBackgroundColor.startPoint = CGPoint(x: 1, y: 1)
-        self.gradientBackgroundColor.endPoint = CGPoint(x: 1, y: 0)
-        self.view.layer.addSublayer(self.gradientBackgroundColor)
     }
 }
 
