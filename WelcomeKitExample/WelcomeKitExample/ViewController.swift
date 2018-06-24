@@ -13,6 +13,11 @@ import Lottie
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+    private var welcomeVC: WKViewController!
+    private var pageViews: [WKPageView]!
+    private var mainAnimationView: LOTAnimationView!
+    
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,13 +34,13 @@ class ViewController: UIViewController {
         // WKViewController Parameter Instances
         let primaryColor = UIColor(red:1.00, green:0.60, blue:0.62, alpha:1.0)
         let secondaryColor = UIColor(red:0.98, green:0.82, blue:0.77, alpha:1.0)
-        let mainAnimationView = LOTAnimationView(name: "servishero_loading")
+        self.mainAnimationView = LOTAnimationView(name: "servishero_loading")
         
         // Instantiate the page views to be displayed
-        let pageViews = configPageViews()
+        self.pageViews = configPageViews()
         
         // Instantiating a WKViewController
-        let welcomeVC = WKViewController(
+        self.welcomeVC = WKViewController(
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
             pageViews: pageViews,
@@ -47,8 +52,8 @@ class ViewController: UIViewController {
         )
         
         // Auto Layout
-        self.view.addSubview(welcomeVC.view)
-        welcomeVC.view.snp.makeConstraints { (make) in
+        self.view.addSubview(self.welcomeVC.view)
+        self.welcomeVC.view.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }
@@ -78,27 +83,29 @@ class ViewController: UIViewController {
         let secondPage = WKPageView(viewModel: secondPageViewModel)
         
         // Last Page
-        let thirdPageDescription =
+        let lastPageDescription =
         """
         You've reached the end of our onboarding screens, feel free to add more.
 
         As you can see, we can arbitrarily append pages. Just be sure to configure animation speed accordingly.
         """
-        let thirdPageViewModel = WKPageViewModel(title: "Last Title", description: thirdPageDescription)
-        let thirdPage = WKPageView(viewModel: thirdPageViewModel)
+        let lastPageViewModel = WKPageViewModel(title: "Last Title", description: lastPageDescription)
+        let lastPage = WKPageView(viewModel: lastPageViewModel)
         
         // If desired, you can also edit WKPageView's UILabel properties for styling
-        firstPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
-        firstPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        secondPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
-        secondPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        thirdPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 56.0)
-        thirdPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        firstPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
+        firstPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
+        
+        secondPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
+        secondPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
+
+        lastPage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
+        lastPage.descriptionLabel?.font = UIFont.systemFont(ofSize: 16.0)
         
         // Set pages to view controller list, track via 'pages' array
         pages.append(firstPage)
         pages.append(secondPage)
-        pages.append(thirdPage)
+        pages.append(lastPage)
         return pages
     }
 }

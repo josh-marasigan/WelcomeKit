@@ -20,15 +20,15 @@ protocol WKPageContentViewDelegate: class {
 class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
     
     // MARK: - Properties
-    fileprivate var pages = [UIViewController]()
-    fileprivate let pageControl = UIPageControl()
-    fileprivate var startIndex: Int? = 0
+    private var pages = [UIViewController]()
+    private let pageControl = UIPageControl()
+    private var startIndex: Int? = 0
     
     // MARK: - Optional Properties
-    fileprivate var pageControlColor: UIColor?
+    private var pageControlColor: UIColor?
 
     // MARK: - WKPageContentViewDelegate Instance
-    fileprivate weak var contenViewDelegate: WKPageContentViewDelegate?
+    private weak var contenViewDelegate: WKPageContentViewDelegate?
     
     // MARK: - Initializers
     /// WKPageContentView inherits from UIPageViewController (also delegating to itselfs data source)
@@ -104,6 +104,7 @@ class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
 extension WKPageContentView: UIPageViewControllerDelegate {
     
     // Called after if user goes to a previous page
+    // Return nil if this is the first page
     func pageViewController(_ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -111,12 +112,11 @@ extension WKPageContentView: UIPageViewControllerDelegate {
             self.contenViewDelegate?.onPreviousPage(pageIndex: pageIndex)
             return (pageIndex == 0) ? nil : self.pages[pageIndex - 1]
         }
-        
-        // Return nil if this is the first page
         return nil
     }
     
     // Called after if user goes to the next page
+    // Return nil if this is the last page
     func pageViewController(_ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
@@ -124,9 +124,20 @@ extension WKPageContentView: UIPageViewControllerDelegate {
             self.contenViewDelegate?.onNextPage(pageIndex: pageIndex)
             return pageIndex < self.pages.count - 1 ? self.pages[pageIndex + 1] : nil
         }
-        
-        // Return nil if this is the last page
         return nil
+    }
+    
+    // Set page control indicator's index once transition is completed
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool) {
+        
+        if let viewControllers = pageViewController.viewControllers,
+            let newIndex = self.pages.index(of: viewControllers[0]) {
+            self.pageControl.currentPage = newIndex
+        }
     }
 }
 

@@ -17,6 +17,8 @@ class WKViewController: UIViewController {
     private var primaryColor = UIColor.white
     private var secondaryColor: UIColor?
     private var gradientBackgroundColor = CAGradientLayer()
+    
+    // MARK: - Optional Properties
     private var paddingBetween: Int?
     private var animationViewHeight: Int?
     private var animationViewWidth: Int?
@@ -27,8 +29,9 @@ class WKViewController: UIViewController {
     fileprivate var animationView: LOTAnimationView!
     
     // MARK: - Page Content Components
-    fileprivate var pageViews = [WKPageView]()
-    fileprivate lazy var pageContentView: WKPageContentView = {
+    private var contentView: UIView!
+    private var pageViews: [WKPageView]!
+    private lazy var pageContentView: WKPageContentView = {
         let contentView = WKPageContentView(
             pages: self.pageViews,
             delegate: self,
@@ -80,7 +83,7 @@ class WKViewController: UIViewController {
         self.sideContentPadding = sideContentPadding
         self.verticalContentPadding = verticalContentPadding
         
-        // Size animation file to fit its content
+        // Optional resize of the animation file to fit its content
         self.animationView = animationView
         self.animationView.contentMode = animationViewContentMode ?? .scaleAspectFit
         
@@ -106,9 +109,9 @@ class WKViewController: UIViewController {
         self.setBackgroundColor()
         
         // Container View for pageviews and animationView w/ optional padding
-        let contentView = UIView()
-        self.view.addSubview(contentView)
-        contentView.snp.makeConstraints { (make) in
+        self.contentView = UIView()
+        self.view.addSubview(self.contentView)
+        self.contentView.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(self.sideContentPadding ?? 0)
             make.trailing.equalToSuperview().offset(-(self.sideContentPadding ?? 0))
             make.top.equalToSuperview().offset(self.verticalContentPadding ?? 0)
@@ -116,7 +119,7 @@ class WKViewController: UIViewController {
         }
         
         // Add our LOTAnimationView instance to the view hierarchy
-        contentView.addSubview(animationView)
+        self.contentView.addSubview(self.animationView)
         self.animationView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             
@@ -130,7 +133,7 @@ class WKViewController: UIViewController {
         }
         
         // Display your pageContentView by adding it to the super view
-        contentView.addSubview(self.pageContentView.view)
+        self.contentView.addSubview(self.pageContentView.view)
         self.pageContentView.view.snp.makeConstraints { (make) in
             make.top.equalTo(self.animationView.snp.bottom).offset(paddingBetween ?? 0)
             make.leading.trailing.equalToSuperview()
