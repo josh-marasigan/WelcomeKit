@@ -34,7 +34,10 @@ class ViewController: UIViewController {
         // WKViewController Parameter Instances
         let primaryColor = UIColor(red:1.00, green:0.60, blue:0.62, alpha:1.0)
         let secondaryColor = UIColor(red:0.98, green:0.82, blue:0.77, alpha:1.0)
+        
+        // Create LOTAnimationView instance and set configurations
         self.mainAnimationView = LOTAnimationView(name: "servishero_loading")
+        self.mainAnimationView.animationSpeed = 0.5
         
         // Instantiate the page views to be displayed
         self.pageViews = configPageViews()

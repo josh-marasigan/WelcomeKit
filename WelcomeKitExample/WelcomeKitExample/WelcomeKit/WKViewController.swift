@@ -17,6 +17,7 @@ class WKViewController: UIViewController {
     private var primaryColor = UIColor.white
     private var secondaryColor: UIColor?
     private var gradientBackgroundColor = CAGradientLayer()
+    private var currentPage = 0
     
     // MARK: - Optional Properties
     private var paddingBetween: Int?
@@ -25,8 +26,10 @@ class WKViewController: UIViewController {
     private var sideContentPadding: Int?
     private var verticalContentPadding: Int?
     
-    // MARK: - Animation File (JSON)
+    // MARK: - Animation File (JSON) and properties
     fileprivate var animationView: LOTAnimationView!
+    private var evenAnimationTimePartition: CGFloat = 0.118
+    private var customAnimationTimePartitions: [CGFloat] = [CGFloat]()
     
     // MARK: - Page Content Components
     private var contentView: UIView!
@@ -48,6 +51,12 @@ class WKViewController: UIViewController {
     ///   - secondaryColor: Trailing color for the background gradient. Defaults to nil.
     ///   - pageViews: The WKPageView(s) to be displayed
     ///   - animationView: The LOTAnimationView to be display along with the pageViews
+    ///   - evenAnimationTimePartition: The interval of progress used to animate the animationView
+    ///     when transitioning between pages. Use only if your animationView can be animated in even
+    ///     chunks. Progress on the animation will stop if the animation ends prior to the last page.
+    ///   - customAnimationTimePartitions: The intervals of progress used to animate the aimationView
+    ///     when transitioning between pages. Count must not exceed the number of pages, and
+    ///     the ending index must be of value '1', indicating the end of the animation progress.
     ///   - paddingBetween: Optional Int value for padding between pageViews and animationView
     ///   - animationViewHeight: Optional Int value to indicate the animationView's height
     ///   - animationViewWidth: Optional Int value to indicate the animationView's width
@@ -58,6 +67,8 @@ class WKViewController: UIViewController {
          secondaryColor: UIColor?,
          pageViews: [WKPageView],
          animationView: LOTAnimationView,
+         evenAnimationTimePartition: CGFloat? = nil,
+         customAnimationTimePartitions: [CGFloat]? = nil,
          paddingBetween: Int? = nil,
          animationViewHeight: Int? = nil,
          animationViewWidth: Int? = nil,
@@ -98,10 +109,11 @@ class WKViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configUI()
-        
-        self.animationView.play{ (finished) in
-            print("Done Animating")
-        }
+
+        // First animation partition
+        self.animationView.play(
+            toProgress: self.evenAnimationTimePartition,
+            withCompletion: nil)
     }
     
     // MARK: - UI
@@ -159,12 +171,30 @@ class WKViewController: UIViewController {
 }
 
 // MARK: - WKPageContentViewDelegate
+// These delegate calls enables the WKViewController class to know which
+// animation progress time stamp to animate to next (these time stamps are from 0 to 1)
 extension WKViewController: WKPageContentViewDelegate {
-    func onNextPage(pageIndex: Int) {
-        print("Current Index: \(pageIndex)")
-    }
     
-    func onPreviousPage(pageIndex: Int) {
-        print("Current Index: \(pageIndex)")
+    // Animate to next time partition according to new page index
+    func onNewPage(newPageIndex: Int) {
+        
+        // Get current animation time progress
+        let currentProgress = self.evenAnimationTimePartition * CGFloat(self.currentPage + 1)
+        
+        // Calculate next animation time progress
+        let newProgress = self.currentPage < newPageIndex ?
+                self.evenAnimationTimePartition * CGFloat((newPageIndex + 1)) :
+                self.evenAnimationTimePartition * CGFloat(self.currentPage)
+        
+        // Stop animating if end of animation is reached
+        if !(0.0...1.0 ~= newProgress) { return }
+        
+        // Animate from current animation progress to new
+        self.animationView.play(
+            fromProgress: currentProgress,
+            toProgress: newProgress,
+            withCompletion: nil)
+        
+        self.currentPage = newPageIndex
     }
 }

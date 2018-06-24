@@ -13,8 +13,7 @@ import SnapKit
 // MARK: - WKPageContentViewDelegate
 // Sends action events to WKViewController that an interaction occured
 protocol WKPageContentViewDelegate: class {
-    func onNextPage(pageIndex: Int)
-    func onPreviousPage(pageIndex: Int)
+    func onNewPage(newPageIndex: Int)
 }
 
 class WKPageContentView: UIPageViewController, UIPageViewControllerDataSource {
@@ -109,7 +108,6 @@ extension WKPageContentView: UIPageViewControllerDelegate {
         viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let pageIndex = self.pages.index(of: viewController) {
-            self.contenViewDelegate?.onPreviousPage(pageIndex: pageIndex)
             return (pageIndex == 0) ? nil : self.pages[pageIndex - 1]
         }
         return nil
@@ -121,8 +119,7 @@ extension WKPageContentView: UIPageViewControllerDelegate {
         viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         if let pageIndex = self.pages.index(of: viewController) {
-            self.contenViewDelegate?.onNextPage(pageIndex: pageIndex)
-            return pageIndex < self.pages.count - 1 ? self.pages[pageIndex + 1] : nil
+            return (pageIndex < self.pages.count - 1) ? self.pages[pageIndex + 1] : nil
         }
         return nil
     }
@@ -137,6 +134,7 @@ extension WKPageContentView: UIPageViewControllerDelegate {
         if let viewControllers = pageViewController.viewControllers,
             let newIndex = self.pages.index(of: viewControllers[0]) {
             self.pageControl.currentPage = newIndex
+            self.contenViewDelegate?.onNewPage(newPageIndex: newIndex)
         }
     }
 }
