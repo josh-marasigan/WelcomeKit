@@ -178,5 +178,5 @@ class ViewController: UIViewController {
 ```
 ## Thanks For Reading!
 
-If you want to contribute, feel free to submit a pull request.
-If you woud like to request a feature or report a bug, feel free to create an issue.
+- If you want to contribute, feel free to submit a pull request.
+- If you woud like to request a feature or report a bug, feel free to create an issue.
