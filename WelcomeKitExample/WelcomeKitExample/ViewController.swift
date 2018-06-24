@@ -48,6 +48,7 @@ class ViewController: UIViewController {
             secondaryColor: secondaryColor,
             pageViews: pageViews,
             animationView: mainAnimationView,
+            evenAnimationTimePartition: 0.118,
             
             // Optional Parameters
             sideContentPadding: 32,

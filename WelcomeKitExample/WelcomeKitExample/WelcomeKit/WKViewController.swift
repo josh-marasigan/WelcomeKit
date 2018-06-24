@@ -28,8 +28,8 @@ class WKViewController: UIViewController {
     
     // MARK: - Animation File (JSON) and properties
     fileprivate var animationView: LOTAnimationView!
-    private var evenAnimationTimePartition: CGFloat = 0.118
-    private var customAnimationTimePartitions: [CGFloat] = [CGFloat]()
+    private var evenAnimationTimePartition: CGFloat = 0.1
+    private var customAnimationTimePartitions: [CGFloat]? = [CGFloat]()
     
     // MARK: - Page Content Components
     private var contentView: UIView!
@@ -67,7 +67,7 @@ class WKViewController: UIViewController {
          secondaryColor: UIColor?,
          pageViews: [WKPageView],
          animationView: LOTAnimationView,
-         evenAnimationTimePartition: CGFloat? = nil,
+         evenAnimationTimePartition: CGFloat?,
          customAnimationTimePartitions: [CGFloat]? = nil,
          paddingBetween: Int? = nil,
          animationViewHeight: Int? = nil,
@@ -93,6 +93,10 @@ class WKViewController: UIViewController {
         // Set padding for the main content view if indicated
         self.sideContentPadding = sideContentPadding
         self.verticalContentPadding = verticalContentPadding
+        
+        // Animation partition times
+        self.evenAnimationTimePartition = evenAnimationTimePartition ?? CGFloat(1/pageViews.count)
+        self.customAnimationTimePartitions = customAnimationTimePartitions
         
         // Optional resize of the animation file to fit its content
         self.animationView = animationView
